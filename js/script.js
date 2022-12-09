@@ -7,6 +7,8 @@
     const selectorArticleAuthor = '.post-author';
     const selectorAuthorsList = '.list.authors';
     const selectorTagsList = '.sidebar .tags';
+    //Event jest interfejsem wbudowanym w TS- dzięki wskazaniu go przy evencie TS będzie sprawdzał czy jest on obiektem z informacjami o zdarzeniu
+    //this - ma wskazywać na kliknięty link, należy go skojarzyć z wbudowanym interfejsem HTMLLinkElement
     const titleClickHandler = function (event) {
         event.preventDefault();
         const clickedElement = this;

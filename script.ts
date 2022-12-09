@@ -1,13 +1,17 @@
 {
-  const selectorArticle = '.post';
-  const selectorTitle = '.post-title';
-  const selectorTitleList = '.titles';
-  const selectorArticleTags = '.post-tags .list';
-  const selectorArticleAuthor = '.post-author';
-  const selectorAuthorsList = '.list.authors';
-  const selectorTagsList = '.sidebar .tags';
+  const selectorArticle: string = '.post';
+  const selectorTitle: string = '.post-title';
+  const selectorTitleList: string = '.titles';
+  const selectorArticleTags: string = '.post-tags .list';
+  const selectorArticleAuthor: string = '.post-author';
+  const selectorAuthorsList: string = '.list.authors';
+  const selectorTagsList: string = '.sidebar .tags';
 
-  const titleClickHandler = function (event) {
+  //Event jest interfejsem wbudowanym w TS- dzięki wskazaniu go przy evencie TS będzie sprawdzał czy jest on obiektem z informacjami o zdarzeniu
+  //this - ma wskazywać na kliknięty link, należy go skojarzyć z wbudowanym interfejsem HTMLLinkElement
+  const titleClickHandler = function (
+    this: HTMLLinkElement, 
+    event: Event): void {
     event.preventDefault();
     const clickedElement = this;
 
