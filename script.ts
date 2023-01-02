@@ -10,32 +10,41 @@
   //Event jest interfejsem wbudowanym w TS- dzięki wskazaniu go przy evencie TS będzie sprawdzał czy jest on obiektem z informacjami o zdarzeniu
   //this - ma wskazywać na kliknięty link, należy go skojarzyć z wbudowanym interfejsem HTMLLinkElement
   const titleClickHandler = function (
-    this: HTMLLinkElement, 
+    this: HTMLLinkElement,
     event: Event): void {
     event.preventDefault();
     const clickedElement = this;
 
     /* find active link and make it inactive */
-    const activeLink = document.querySelector('.titles a.active');
+    const activeLink = document.querySelector('.titles a.active') as HTMLLinkElement;
     if (activeLink) activeLink.classList.remove('active');
 
     /* add active class to clicked link */
     clickedElement.classList.add('active');
 
     /* find and hide active article */
-    const activeArticle = document.querySelector('.posts article.active');
+    const activeArticle = document.querySelector('.posts article.active') as HTMLLinkElement;
     if (activeArticle) activeArticle.classList.remove('active');
 
+
+
+
+
+    //??? Jeśli na hrefAttribute użyję union po dwukropku to wskazuje na błąd w linijce 32...- dlaczego?
     /* find id of article related to clicked link, then find it and show */
-    const hrefAttribute = clickedElement.getAttribute('href');
-    const targetArticle = document.querySelector(hrefAttribute);
+    const hrefAttribute = clickedElement.getAttribute('href') as string;
+    const targetArticle = document.querySelector(hrefAttribute) as HTMLElement;
+    console.log('targetArticle', targetArticle);
     if (targetArticle) targetArticle.classList.add('active');
   };
 
-  const generateTitleLinks = (customSelector = '') => {
+
+
+
+  const generateTitleLinks = (customSelector = ''): void => {
 
     /* find and empty title list */
-    const titleList = document.querySelector(selectorTitleList);
+    const titleList = document.querySelector(selectorTitleList) as Element;
     titleList.innerHTML = '';
 
     /* prepare variable for storing all the title links */
@@ -49,7 +58,8 @@
       const articleID = article.getAttribute('id');
 
       /* find elem that holds the title and retrieve it */
-      const articleTitle = article.querySelector(selectorTitle).innerHTML;
+      const articleTitle = (article.querySelector(selectorTitle) as Element).innerHTML;
+      console.log('abc', articleTitle);
 
       /* create HTML of the link */
       const linkHTML = '<li><a href="#' + articleID + '"><span>' + articleTitle + '</span></a></li>';
@@ -73,20 +83,21 @@
   const generateTags = () => {
 
     /* create a new array for holding unique tag names */
-    const allTags = [];
+    //tablica stringów Array<string>
+    const allTags: string[] = [];
 
     /* find all articles and loop through */
     const articles = document.querySelectorAll(selectorArticle);
     for (let article of articles) {
 
       /* find div for storing tags  */
-      const tagWrapper = article.querySelector(selectorArticleTags);
+      const tagWrapper = article.querySelector(selectorArticleTags) as Element;
 
       /* prepare variable for storing all the tag links */
       let html = '';
 
       /* get info about tags from data-tags attribute */
-      const dataTag = article.getAttribute('data-tags');
+      const dataTag = article.getAttribute('data-tags') as string;
 
       /* split tags into array */
       const tagsArray = dataTag.split(' ');
@@ -111,7 +122,7 @@
     }
 
     /* find tags list in sidebar */
-    const tagList = document.querySelector(selectorTagsList);
+    const tagList = document.querySelector(selectorTagsList) as Element;
 
     /* create variable for all links */
     let allTagsHTML = '';
@@ -128,17 +139,17 @@
   const generateAuthors = () => {
 
     /* create list of unique authors */
-    let allAuthors = [];
+    let allAuthors: string[] = [];
 
     /* find all articles and loop through */
     const articles = document.querySelectorAll(selectorArticle);
     for (let article of articles) {
 
       /* find wrapper for author in article elem */
-      const articleAuthor = article.querySelector(selectorArticleAuthor);
+      const articleAuthor = article.querySelector(selectorArticleAuthor) as Element;
 
       /* get article data-author attribute */
-      const author = article.getAttribute('data-author');
+      const author = article.getAttribute('data-author') as string;
 
       /* check if author is not already in the list, if not -> push it */
       if (!allAuthors.includes(author)) {
@@ -151,7 +162,7 @@
     }
 
     /* find wrapper for author links in sidebar */
-    const authorList = document.querySelector(selectorAuthorsList)
+    const authorList = document.querySelector(selectorAuthorsList) as Element
 
     /* loop through unique authors and generate author links in in sidebar*/
     for (let author of allAuthors) {

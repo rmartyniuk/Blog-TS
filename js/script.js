@@ -22,9 +22,11 @@
         const activeArticle = document.querySelector('.posts article.active');
         if (activeArticle)
             activeArticle.classList.remove('active');
+        //??? Jeśli na hrefAttribute użyję union po dwukropku to wskazuje na błąd w linijce 32...- dlaczego?
         /* find id of article related to clicked link, then find it and show */
         const hrefAttribute = clickedElement.getAttribute('href');
         const targetArticle = document.querySelector(hrefAttribute);
+        console.log('targetArticle', targetArticle);
         if (targetArticle)
             targetArticle.classList.add('active');
     };
@@ -41,6 +43,7 @@
             const articleID = article.getAttribute('id');
             /* find elem that holds the title and retrieve it */
             const articleTitle = article.querySelector(selectorTitle).innerHTML;
+            console.log('abc', articleTitle);
             /* create HTML of the link */
             const linkHTML = '<li><a href="#' + articleID + '"><span>' + articleTitle + '</span></a></li>';
             /* insert link into html variable */
